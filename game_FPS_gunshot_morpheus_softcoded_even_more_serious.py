@@ -5,46 +5,37 @@ import time
 import random
 
 pygame.init()
-# colors, rgb
 
-display_width = 800
-display_height = 600
-random_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-FPS = 30
+# Colors, rgb
 white = (255,255,255)
 black = (0,0,0)
 red = (255,100,100)
 gray = (100, 100, 100)
 ubuntu = (48, 10, 36)
 green = (169, 219, 135)
+random_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+# Resolution
+display_width = 800
+display_height = 600
+
+FPS = 30
 block_size = 10
 font = pygame.font.SysFont(None, 30)
-
 # Clock
 clock = pygame.time.Clock()
-
 # Surface
-
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Gunshot Morpheus')
 pygame.display.update()
-
 # Player
-"""
-def player(lead_x, lead_y, block_size):
-	pygame.draw.rect(gameDisplay, gray, [lead_x, lead_y, block_size, block_size])"""
-
 def player(block_size, segments):
 	for x_and_y in segments:
-		
 		pygame.draw.rect(gameDisplay, gray, [x_and_y[0], x_and_y[1], block_size, block_size])
-
 # Function to print message to the screen
 def message_to_screen(msg, color):
-	screen_text = font.render(msg, True, color) #true antialiasing
+	screen_text = font.render(msg, True, color) # True stands for antialiasing
 	gameDisplay.blit(screen_text, [display_width / 2, display_height / 2])
-	
-# game loop
+# Game loop
 def game_loop():
 	gameOver = False
 	gameExit = False
@@ -55,16 +46,12 @@ def game_loop():
 	lead_y_change = 0
 	center = [lead_x, lead_y]
 	speed = 10
-	random_x = round(random.randint(35, display_width - block_size) / 10) * 10.0
-	random_y = round(random.randint(35, display_height - block_size) / 10) * 10.0
+	random_x = round(random.randint(600, display_width - block_size) / 10) * 10.0
+	random_y = round(random.randint(400, display_height - block_size) / 10) * 10.0
 	
 	print(random_x, random_y)
-	#pygame.draw.rect(gameDisplay, random_color, [random_x, random_y, block_size, block]
-	
-	#pygame.display.update()
 	
 	while not gameExit:
-		
 		while gameOver == True:
 			gameDisplay.fill(ubuntu)
 			message_to_screen("RETRY? Y / N", red)
@@ -76,10 +63,9 @@ def game_loop():
 					if event.key == pygame.K_n:
 						gameExit = True
 						gameOver = False
-						
+
 		lead_x += lead_x_change
 		lead_y += lead_y_change
-		
 		# Background fill
 		gameDisplay.fill(ubuntu)
 		# Enemy
@@ -90,7 +76,6 @@ def game_loop():
 		segments_head.append(lead_x)
 		segments_head.append(lead_y)
 		segments.append(segments_head)
-		
 		player(block_size, segments)
 		#Sides
 		gameDisplay.fill(red, rect=[block_size, block_size, display_width - 20, block_size])          #top
@@ -107,12 +92,10 @@ def game_loop():
 		
 		# clock
 		clock.tick(FPS)
-		
+		# Movement left/right
 		for event in pygame.event.get():
 			# Make it move Left Right
 			if event.type == pygame.KEYDOWN:
-				#print(event)
-				# Movement left/right
 				if event.key == pygame.K_LEFT:
 					lead_x_change = -speed
 					# So it won't move diagonally
